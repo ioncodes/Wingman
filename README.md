@@ -42,6 +42,13 @@ Ofcourse, there's the problem that a pure C# coder wont be able to code a librar
 
 But maybe this problem will be resolved if get a big enough userbase which develops lots of plugins which the handicapped terminal devs can download!  
 
+However, it does also offers validation after the response has been received. It offers Regex, Substring, and (soon) more!  
+
+
+## Any other reasons to use this?
+
+You love me, I love you, we love .NET and you know it! C# kicks ass :tada:
+
 
 ## Uff, too much text...
 
