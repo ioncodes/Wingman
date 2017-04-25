@@ -1,0 +1,29 @@
+{
+  "host": "https://jsonplaceholder.typicode.com",
+  "endpoint": "/comments",
+  "params": [
+    {
+      "key": "postId",
+      "value": "1",
+      "use_plugin": false,
+      "plugin_key": ""
+    }
+  ],
+  "method": "GET",
+  "headers": [
+    {
+      "name": "Content-Type",
+      "value": "application/json",
+      "use_plugin": false,
+      "plugin_key": ""
+    },
+    {
+      "name": "",
+      "value": "",
+      "use_plugin": true,
+      "plugin_key": "md5_timestamp"
+    }
+  ],
+  "timeout": 10000,
+  "plugin_name": "MD5"
+}
