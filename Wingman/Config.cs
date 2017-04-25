@@ -1,10 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Wingman
 {
     class Config
     {
+        public enum ValidationType
+        {
+            Regex,
+            Substring
+        }
+
         public class Param
         {
             [JsonProperty(PropertyName = "key")]
@@ -35,6 +42,25 @@ namespace Wingman
             public string PluginKey { get; set; }
         }
 
+        public class ResponseValidate
+        {
+            private ValidationType _type;
+
+            [JsonProperty(PropertyName = "type")]
+            public ValidationType Type
+            {
+                get => _type;
+                set
+                {
+                    Enum.TryParse(value.ToString(), out ValidationType type);
+                    _type = type;
+                }
+            }
+
+            [JsonProperty(PropertyName = "value")]
+            public string Value { get; set; }
+        }
+
         public class RootObject
         {
             [JsonProperty(PropertyName = "host")]
@@ -57,6 +83,9 @@ namespace Wingman
 
             [JsonProperty(PropertyName = "plugin_name")]
             public string PluginName { get; set; }
+
+            [JsonProperty(PropertyName = "response_validate")]
+            public List<ResponseValidate> Validate { get; set; }
         }
     }
 }

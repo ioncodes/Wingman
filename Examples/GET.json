@@ -25,5 +25,15 @@
     }
   ],
   "timeout": 10000,
-  "plugin_name": "MD5"
+  "plugin_name": "MD5",
+  "response_validate": [
+    {
+      "type": "regex",
+      "value": "\\[[\\W\\w]+\\]"
+    },
+    {
+      "type": "substring",
+      "value": "Nikita@garfield.biz"
+    }
+  ] 
 }

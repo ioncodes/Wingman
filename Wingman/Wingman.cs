@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
@@ -33,6 +34,7 @@ namespace Wingman
             {
                 _plugins.Add(plugin.Name, plugin);
             }
+            Console.WriteLine($"Loaded {plugins.Count} plugins!");
         }
 
         public bool CheckConfig()
@@ -45,7 +47,7 @@ namespace Wingman
             _config = JsonConvert.DeserializeObject<Config.RootObject>(_configJson);
         }
 
-        public void Execute()
+        public string Execute()
         {
             RestRequest request = new RestRequest(_config.Endpoint);
             foreach (var parameter in _config.Params)
@@ -72,8 +74,22 @@ namespace Wingman
             request.Method = method;
             request.Timeout = _config.Timeout;
             RestClient client = new RestClient(_config.Host);
-            var response = client.Execute(request);
-            Console.WriteLine(response.Content);
+            return client.Execute(request).Content;
+        }
+
+        public (Config.ValidationType, string, bool)[] Validate(string response)
+        {
+            List<(Config.ValidationType, string, bool)> data = new List<(Config.ValidationType, string, bool)>();
+            foreach (var validation in _config.Validate)
+            {
+                bool result = false;
+                if (validation.Type == Config.ValidationType.Regex)
+                    result = Regex.IsMatch(response, validation.Value);
+                else if (validation.Type == Config.ValidationType.Substring)
+                    result = response.Contains(validation.Value);
+                data.Add((validation.Type, validation.Value, result));
+            }
+            return data.ToArray();
         }
     }
 }
